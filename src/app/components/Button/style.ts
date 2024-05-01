@@ -13,6 +13,10 @@ export const ButtonContainer = styled.button<{ $bgColor: string | undefined }>`
   font-weight: 600;
   font-size: 16px;
   color: #ffffff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   /* background-color: red; */
   /* &:disabled {
     background-color: #7d8592;

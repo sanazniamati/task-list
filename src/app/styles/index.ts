@@ -9,7 +9,7 @@ export const Container = styled.div`
   margin: 0 auto;
   .page-wrapper {
     margin: 50px 0;
-    background-color: lightgrey;
+    /* background-color: lightgrey; */
   }
 
   .top-title {
@@ -21,5 +21,8 @@ export const Container = styled.div`
     font-weight: 700;
     font-size: 36px;
     color: blue;
+  }
+  .task-container {
+    margin-top: 40px;
   }
 `;
