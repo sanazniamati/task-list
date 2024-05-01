@@ -14,7 +14,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: FC<ButtonProps> = ({ title, bgColor, disabled, icon, onClick }) => {
   return (
-    <ButtonContainer $bgColor={bgColor} disabled={disabled}>
+    <ButtonContainer $bgColor={bgColor} disabled={disabled} onClick={onClick}>
       {icon && <span className="mr-[10px]">{icon}</span>}
       {title}
     </ButtonContainer>
