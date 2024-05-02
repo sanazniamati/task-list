@@ -5,22 +5,17 @@ import { Button } from "./components/Button";
 import { Container } from "./styles";
 import TaskCard from "./components/TaskCard";
 import { taskList } from "./Data/taskList";
-import Image from "next/image";
-// import { ReactComponent as Add } from "../../public/assets/icons/add.svg";
-// import Add from "../../public/assets/icons/add.svg";
 import Add from "./components/Icons/AddIcon/index";
-import AddTask from "./components/AddTask.tsx";
-
-// let intialValue=taskList
+import AddTask from "./components/AddTask";
 
 export default function Home() {
   const [showAddModal, setAddShowModal] = useState<boolean>(false);
 
   const handleShowAddModal = () => {
-    setAddShowModal((prev) => !prev);
+    setAddShowModal(true);
     console.log(showAddModal);
   };
-  // const[taskList,setTaskList]=useState(intialValue)
+
   return (
     <Container>
       <div className="page-wrapper">

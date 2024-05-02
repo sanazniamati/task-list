@@ -8,6 +8,10 @@ interface ModalProps {
 }
 
 const Modal: FC<ModalProps> = ({ children }) => {
-  return <ModalWrapper>{children}</ModalWrapper>;
+  return (
+    <ModalWrapper>
+      <div className="modal-content">{children}</div>
+    </ModalWrapper>
+  );
 };
 export default Modal;
