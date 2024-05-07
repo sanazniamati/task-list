@@ -1,6 +1,8 @@
 /** @format */
 
 import { FC, ReactNode } from "react";
+
+// styles
 import { ModalWrapper } from "./style";
 
 interface ModalProps {

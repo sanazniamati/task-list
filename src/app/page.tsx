@@ -28,7 +28,7 @@ export default function Home() {
       <div className="page-wrapper">
         <div className="top-title">
           <h2>Task List</h2>
-          <Button bgColor={"#713fff;"} title="Add Task" disabled={false} icon={<Add />} onClick={handleShowAddModal} />
+          <Button bgColor={"#713fff"} title="Add Task" disabled={false} icon={<Add />} onClick={handleShowAddModal} />
           {showAddModal && <AddTask />}
         </div>
         <div className="task-container">

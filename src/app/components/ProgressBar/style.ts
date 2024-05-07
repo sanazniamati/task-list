@@ -9,12 +9,10 @@ export const ProgressWrapper = styled.div`
   }
 
   .circle-background {
-    fill: none;
     stroke: #e5e6e9;
   }
 
   .circle-progress {
-    fill: none;
     stroke: #713fff;
     stroke-linecap: round;
     transition: stroke-dashoffset 0.5s ease 0s;

@@ -11,7 +11,7 @@ export const ModalWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 
   /* modal content */
   .modal-content {
@@ -22,5 +22,10 @@ export const ModalWrapper = styled.div`
     margin: 15% auto;
     width: 40%;
     min-height: 200px;
+    @media (max-width: 600px) {
+      width: 90%;
+      margin: 50% auto;
+      padding: 30px 30px;
+    }
   }
 `;

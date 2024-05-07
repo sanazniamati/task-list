@@ -17,19 +17,19 @@ export const FormWrapper = styled.form`
     display: flex;
     gap: 13px;
     margin-top: 12px;
-    @include breakpoints.devices(sm) {
+    @media (max-width: 600) {
       gap: 10px;
     }
-    li {
-      // $warning-color: #ffbd21;
-      // $error-color: #f73446;
-      // $success-color: #0ac947;
 
-      border: 1px solid #ffbd21;
+    // $warning-color: #ffbd21;
+    // $error-color: #f73446;
+    // $success-color: #0ac947;
+    li {
+      /* border: 1px solid #ffbd21; */
       border-radius: 10px;
       font-size: 14px;
       font-weight: 500;
-      color: #ffbd21;
+      /* color: #ffbd21; */
       text-transform: capitalize;
       padding: 10px 0;
       width: 90px;
