@@ -7,10 +7,15 @@ export const Container = styled.div`
   max-width: 100%;
   padding: 0 15px;
   margin: 0 auto;
+  .header {
+    color: ${(props) => props.theme.success};
+  }
   .page-wrapper {
     margin: 50px 0;
   }
-
+  .img {
+    width: 30% !important;
+  }
   .top-title {
     display: flex;
     justify-content: space-between;

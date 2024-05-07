@@ -1,22 +1,32 @@
 /** @format */
 
 import { FC } from "react";
-import { MouseEventHandler, ReactNode } from "react";
+import { ReactNode, ButtonHTMLAttributes } from "react";
 import { ButtonContainer } from "./style";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  title: string;
   bgColor?: string;
   disabled?: boolean;
   icon?: ReactNode;
-  onClick: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const Button: FC<ButtonProps> = ({ title, bgColor, disabled, icon, onClick }) => {
+export const Button: FC<ButtonProps> = (props) => {
+  const { bgColor, icon, children, onClick, disabled } = props;
   return (
-    <ButtonContainer $bgColor={bgColor} disabled={disabled} onClick={onClick}>
+    <ButtonContainer
+      {...props}
+      $disabled={disabled}
+      $bgColor={bgColor}
+      onClick={(e) => {
+        if (!disabled) {
+          onClick && onClick(e);
+        } else {
+          console.log("disabled");
+        }
+      }}
+    >
       {icon && <span className="mr-[10px]">{icon}</span>}
-      {title}
+      {children}
     </ButtonContainer>
   );
 };
