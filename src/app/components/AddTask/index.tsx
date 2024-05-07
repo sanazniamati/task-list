@@ -15,6 +15,7 @@ const AddTask: FC = () => {
         <div className="add-edit-modal"></div>
         <div className=" flex justify-between">
           <span className=" text-[22px] font-bold text-[##121212] mb-[30px] ">Add Task </span>
+
           <Close />
         </div>
         <Input label="Task" placeholder="Type your task here..." onChange={() => {}} name="title" value="" />

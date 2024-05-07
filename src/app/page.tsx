@@ -1,18 +1,25 @@
 /** @format */
 "use client";
+// library
 import { useState } from "react";
-import { Button } from "./components/Button";
+
+// styles
 import { Container } from "./styles";
+
+// components
 import TaskCard from "./components/TaskCard";
-import { taskList } from "./Data/taskList";
-import Add from "./components/Icons/AddIcon/index";
 import AddTask from "./components/AddTask";
+import { Button } from "./components/Button";
+import Add from "./components/Icons/AddIcon/index";
+
+// mock data
+import { taskList } from "./Data/taskList";
 
 export default function Home() {
   const [showAddModal, setAddShowModal] = useState<boolean>(false);
 
   const handleShowAddModal = () => {
-    setAddShowModal(true);
+    setAddShowModal(!showAddModal);
     console.log(showAddModal);
   };
 
