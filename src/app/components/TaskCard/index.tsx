@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Image from "next/image";
 import ProgressBar from "../ProgressBar";
 // icons
@@ -10,6 +10,7 @@ import EditIcon from "../../../../public/assets/icons/edit.svg";
 // style
 import { TaskWrapper } from "./style";
 import { Button } from "../Button";
+import { useAppContext } from "@/app/context";
 
 interface TaskProps {
   id: string;
@@ -17,9 +18,17 @@ interface TaskProps {
   priority: string;
   status: string;
   progress: number;
+  setCurrentModal: any;
 }
 
-const TaskCard: FC<TaskProps> = ({ title, priority, status, progress }) => {
+const TaskCard: FC<TaskProps> = ({ title, priority, status, progress, setCurrentModal }) => {
+  const { dispatch } = useAppContext();
+
+  const handleEditBtn = () => {
+    dispatch.setOpenModal(true);
+    setCurrentModal("edit");
+  };
+
   return (
     <TaskWrapper>
       <div className="flex flex-col w-[170px]">
@@ -39,7 +48,7 @@ const TaskCard: FC<TaskProps> = ({ title, priority, status, progress }) => {
       </div>
       <div className=" flex">
         <Image src={DeleteIcon} alt="" className="mr-[20px] cursor-pointer" />
-        <Image src={EditIcon} alt="" className=" cursor-pointer" />
+        <Image src={EditIcon} alt="" className=" cursor-pointer" onClick={handleEditBtn} />
       </div>
     </TaskWrapper>
   );

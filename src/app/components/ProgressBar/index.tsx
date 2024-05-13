@@ -12,7 +12,6 @@ const ProgressBar: FC<ProgressProps> = ({ strokeWidth, sqSize, percentage }) => 
   const radius = (sqSize - strokeWidth) / 2;
   const viewBox = `0 0 ${sqSize} ${sqSize}`;
   const dashArray = radius * Math.PI * 2;
-  console.log("dashArray : " + dashArray);
   const dashOffset = dashArray - (dashArray * (percentage || 0)) / 100;
   return (
     <ProgressWrapper>
