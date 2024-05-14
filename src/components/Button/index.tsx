@@ -12,9 +12,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: FC<ButtonProps> = (props) => {
   const { bgColor, icon, children, onClick, disabled } = props;
+  let newProps = { ...props };
+  (function () {
+    delete newProps.bgColor;
+    delete newProps.icon;
+  })();
+
   return (
     <ButtonContainer
-      {...props}
+      {...newProps}
       $disabled={disabled}
       $bgColor={bgColor}
       onClick={(e) => {

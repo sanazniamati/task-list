@@ -17,10 +17,6 @@ import { taskList } from "../Data/taskList";
 import { useAppContext } from "../context";
 import { Task } from "../components/TaskCard/models/task";
 
-interface IObject {
-  [key: string]: string | number;
-}
-
 export default function Home() {
   // TODO:why type taslkist not asynable to Task[]
   const [tasks, setTasks] = useState<Task[]>(taskList);
@@ -39,29 +35,51 @@ export default function Home() {
       setTasks([newTask, ...tasks]);
       console.log("add btn clieked" + newTask);
     } else {
-      const editedTasks = tasks.map((task) => (task.id === selectedTask.id ? newTask : task));
+      const editedTasks = tasks.map((task) =>
+        selectedTask && task.id === selectedTask.id ? newTask : task
+      );
       setTasks(editedTasks);
     }
   };
-
+  const handleEditBtn = (task: Task) => {
+    dispatch.setOpenModal(true);
+    dispatch.setCurrentModal("edit");
+    setSelectedTask(task);
+  };
+  const onDelete = (id: string) => {
+    setTasks((prev) => prev.filter((item) => item.id !== id));
+  };
   return (
     <Container>
       <div className="page-wrapper">
         <div className="top-title">
           <h2 className="header">Task List</h2>
-          <Button bgColor={"#713fff"} disabled={false} icon={<Add />} onClick={handleAddButton}>
+          <Button
+            bgColor={"#713fff"}
+            disabled={false}
+            icon={<Add />}
+            onClick={handleAddButton}
+          >
             Add Task
           </Button>
         </div>
 
         <div className="task-container">
           {tasks.map((task) => (
-            <TaskCard key={task.id} {...task} selectedTask={selectedTask} />
+            <TaskCard
+              key={task.id}
+              task={task}
+              onEdit={() => handleEditBtn(task)}
+              onDelete={() => onDelete(task.id)}
+            />
           ))}
         </div>
       </div>
 
-      <AddOrEditTask addOrEditTaskFunc={addOrEditTaskFunc} selectedTask={selectedTask} />
+      <AddOrEditTask
+        addOrEditTaskFunc={addOrEditTaskFunc}
+        selectedTask={selectedTask}
+      />
     </Container>
   );
 }

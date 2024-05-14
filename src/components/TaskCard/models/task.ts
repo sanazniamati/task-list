@@ -5,7 +5,7 @@ import { TaskStatus } from "./TaskStatus";
 
 export interface Task {
   // TODO
-  id?: any;
+  id: string;
   title: string;
   priority: "high" | "medium" | "low";
   status?: TaskStatus;

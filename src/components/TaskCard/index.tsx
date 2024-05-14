@@ -20,23 +20,12 @@ import { Task } from "../../components/TaskCard/models/task";
 
 interface TaskProps {
   task: Task;
-  // id?: string;
-  // title: string;
-  // priority: string;
-  // status?: string;
-  // progress?: number;
-  setSelectedTask: (task: Task) => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const TaskCard: FC<TaskProps> = ({ task, setSelectedTask }) => {
+const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit }) => {
   const { title, priority, status, progress } = task;
-  const { dispatch } = useAppContext();
-
-  const handleEditBtn = (task: Task) => {
-    dispatch.setOpenModal(true);
-    dispatch.setCurrentModal("edit");
-    setSelectedTask(task);
-  };
 
   return (
     <TaskWrapper>
@@ -55,8 +44,18 @@ const TaskCard: FC<TaskProps> = ({ task, setSelectedTask }) => {
         <ProgressBar strokeWidth={2} sqSize={24} percentage={progress} />
       </div>
       <div className=" flex">
-        <Image src={DeleteIcon} alt="" className="mr-[20px] cursor-pointer" />
-        <Image src={EditIcon} alt="" className=" cursor-pointer" onClick={() => handleEditBtn(task)} />
+        <Image
+          src={DeleteIcon}
+          alt=""
+          className="mr-[20px] cursor-pointer"
+          onClick={onDelete}
+        />
+        <Image
+          src={EditIcon}
+          alt=""
+          className=" cursor-pointer"
+          onClick={onEdit}
+        />
       </div>
     </TaskWrapper>
   );

@@ -1,6 +1,8 @@
 /** @format */
 "use client";
 import styled from "styled-components";
+import { Button } from ".";
+import { FC } from "react";
 interface IButtonProps {
   $bgColor: string | undefined;
   $disabled?: boolean;
