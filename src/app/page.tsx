@@ -13,8 +13,8 @@ import { Button } from "../components/Button";
 import Add from "../components/Icons/AddIcon/index";
 
 // mock data
-import { taskList } from "./Data/taskList";
-import { useAppContext } from "./context";
+import { taskList } from "../Data/taskList";
+import { useAppContext } from "../context";
 import { Task } from "../components/TaskCard/models/task";
 
 export default function Home() {

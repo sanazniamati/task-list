@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GlobalStyle } from "./global.style";
 import { Theme } from "./styles/theme";
-import { AppWrapper } from "./context";
+import { AppWrapper } from "../context";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

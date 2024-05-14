@@ -12,7 +12,7 @@ import { Button } from "../Button";
 
 // styles
 import { FormWrapper } from "./style";
-import { useAppContext } from "@/app/context";
+import { useAppContext } from "@/context";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
 import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
 

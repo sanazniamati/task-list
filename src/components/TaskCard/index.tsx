@@ -13,7 +13,7 @@ import EditIcon from "../../../public/assets/icons/edit.svg";
 import { TaskWrapper } from "./style";
 
 // context
-import { useAppContext } from "@/app/context";
+import { useAppContext } from "@/context";
 
 interface TaskProps {
   id: string;
