@@ -1,7 +1,7 @@
 /** @format */
 
 // library
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, MouseEventHandler, useEffect, useState } from "react";
 
 // components
 import Modal from "@/components/Modal";
@@ -24,10 +24,8 @@ type NewTask = {
 };
 
 interface IAddOrEditProps {
-  // currentModal: "add" | "edit" | "";
   addOrEditTaskFunc: (newTask: NewTask) => void;
   selectedTask: NewTask;
-  newRecordId?: number | undefined;
 }
 
 const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
@@ -38,28 +36,38 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     progress: TaskProgress.TODO,
   });
 
+  // useEffect(() => {
+  //   if (values.currentModal !== "add") {
+  //     setNewTask({
+  //       id: selectedTask.id,
+  //       title: selectedTask.title,
+  //       priority: selectedTask.priority,
+  //       status: selectedTask.status,
+  //       progress: selectedTask.progress,
+  //     });
+  //   }
+  // }, []);
+
   const { values, func } = useAppContext();
 
   const handleCloseModal = () => {
     func.onClose();
   };
 
-  const handleAddOrEditTask = () => {
+  const handleAddOrEditTask = (e: MouseEventHandler<HTMLButtonElement>) => {
+    // e.preventDefault();
     addOrEditTaskFunc(newTask);
-    console.log("add task or edit task");
     handleCloseModal();
   };
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setNewTask(
-      //   (prevState) => ({
-      //   ...prevState,
-      //   title: value,
-      //   id: currentModal === "add" ? Date.now().toString() : selectedTask.id,
-      // })
-      { ...newTask, title: value, id: values.currentModal === "add" ? Date.now().toString() : selectedTask.id }
-    );
+    setNewTask({
+      ...newTask,
+      title: value,
+      id: values.currentModal === "add" ? Date.now().toString() : selectedTask.id,
+    });
+
     console.log(newTask);
   };
 
@@ -76,7 +84,13 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
             <Close />
           </button>
         </div>
-        <Input label="Task" placeholder="Type your task here..." onChange={handleOnChange} name="title" value={title} />
+        <Input
+          label="Task"
+          placeholder="Type your task here..."
+          onChange={handleInputOnChange}
+          name="title"
+          value={title}
+        />
         <div className="modal-priority">
           <span>Priority</span>
           <ul className="priority-buttons">

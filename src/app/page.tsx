@@ -35,14 +35,10 @@ export default function Home() {
       setTasks([newTask, ...tasks]);
       console.log("add btn clieked" + newTask);
     } else {
-      return;
+      const editedTasks = tasks.map((task) => (task.id === selectedTask.id ? newTask : task));
+      setTasks(editedTasks);
     }
   };
-
-  // const onChangeEditModal = () => {
-  //   setCurrentModal("edit");
-  //   console.log("currentModal :" + currentModal);
-  // };
 
   return (
     <Container>
@@ -56,7 +52,7 @@ export default function Home() {
 
         <div className="task-container">
           {tasks.map((task) => (
-            <TaskCard key={task.id} {...task} />
+            <TaskCard key={task.id} {...task} selectedTask={selectedTask} />
           ))}
         </div>
       </div>

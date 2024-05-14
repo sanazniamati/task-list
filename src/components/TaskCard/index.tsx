@@ -15,21 +15,27 @@ import { TaskWrapper } from "./style";
 // context
 import { useAppContext } from "@/context";
 
+// type
+import { Task } from "../../components/TaskCard/models/task";
+
 interface TaskProps {
-  id: string;
-  title: string;
-  priority: string;
-  status: string;
-  progress: number;
-  // setCurrentModal: any;
+  task: Task;
+  // id?: string;
+  // title: string;
+  // priority: string;
+  // status?: string;
+  // progress?: number;
+  setSelectedTask: (task: Task) => void;
 }
 
-const TaskCard: FC<TaskProps> = ({ title, priority, status, progress }) => {
+const TaskCard: FC<TaskProps> = ({ task, setSelectedTask }) => {
+  const { title, priority, status, progress } = task;
   const { dispatch } = useAppContext();
 
-  const handleEditBtn = () => {
+  const handleEditBtn = (task: Task) => {
     dispatch.setOpenModal(true);
     dispatch.setCurrentModal("edit");
+    setSelectedTask(task);
   };
 
   return (
@@ -50,7 +56,7 @@ const TaskCard: FC<TaskProps> = ({ title, priority, status, progress }) => {
       </div>
       <div className=" flex">
         <Image src={DeleteIcon} alt="" className="mr-[20px] cursor-pointer" />
-        <Image src={EditIcon} alt="" className=" cursor-pointer" onClick={handleEditBtn} />
+        <Image src={EditIcon} alt="" className=" cursor-pointer" onClick={() => handleEditBtn(task)} />
       </div>
     </TaskWrapper>
   );
