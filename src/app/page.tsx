@@ -20,6 +20,8 @@ import { Task } from "./components/TaskCard/models/task";
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>(taskList);
   const [currentModal, setCurrentModal] = useState<"add" | "edit" | "">("");
+  // const lastId = tasks[tasks.length - 1].id;
+  const [selectedTask, setSelectedTask] = useState<any | {}>({});
 
   const { dispatch } = useAppContext();
 
@@ -27,6 +29,15 @@ export default function Home() {
     dispatch.setOpenModal(true);
     setCurrentModal("add");
     console.log("currentModal :" + currentModal);
+  };
+
+  const addOrEditTask = (newTask: Task) => {
+    if (currentModal === "add") {
+      setTasks([newTask, ...tasks]);
+      console.log("add btn clieked" + newTask);
+    } else {
+      return;
+    }
   };
 
   // const onChangeEditModal = () => {
@@ -51,7 +62,7 @@ export default function Home() {
         </div>
       </div>
 
-      <AddOrEditTask currentModal={currentModal} />
+      <AddOrEditTask currentModal={currentModal} addOrEditTask={addOrEditTask} selectedTask={selectedTask} />
     </Container>
   );
 }

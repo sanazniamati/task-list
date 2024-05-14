@@ -40,7 +40,6 @@ const TaskCard: FC<TaskProps> = ({ title, priority, status, progress, setCurrent
         <span className={`${priority}-priority priority`}>{priority}</span>
       </div>
       <div className="task-status-wrapper">
-        {/* <Button title={status} /> */}
         <button className="status">{status}</button>
       </div>
       <div className="progress">
