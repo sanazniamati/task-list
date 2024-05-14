@@ -17,10 +17,14 @@ import { taskList } from "../Data/taskList";
 import { useAppContext } from "../context";
 import { Task } from "../components/TaskCard/models/task";
 
+interface IObject {
+  [key: string]: string | number;
+}
+
 export default function Home() {
-  // TODO:why type taslList not asynable to Task[]
+  // TODO:why type taslkist not asynable to Task[]
   const [tasks, setTasks] = useState<Task[]>(taskList);
-  const [selectedTask, setSelectedTask] = useState<any | {}>({});
+  const [selectedTask, setSelectedTask] = useState<Task>();
   // const lastId = tasks[tasks.length - 1].id;
 
   const { values, dispatch } = useAppContext();

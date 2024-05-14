@@ -2,10 +2,7 @@
 "use client";
 import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 
-type CurrentModalType = {
-  currentModal: "add" | "edit" | "";
-};
-
+type CurrentModalType = "add" | "edit" | "";
 interface ContextProps {
   values: {
     open: boolean;

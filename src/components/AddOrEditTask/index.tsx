@@ -14,39 +14,27 @@ import { FormWrapper } from "./style";
 import { useAppContext } from "@/context";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
 import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
-
-type NewTask = {
-  id?: string;
-  title: string;
-  priority: "high" | "medium" | "low";
-  status?: TaskStatus;
-  progress?: TaskProgress;
-};
+import { Task } from "../TaskCard/models/task";
+// type NewTask = {
+//   id?: string;
+//   title: string;
+//   priority: "high" | "medium" | "low";
+//   status?: TaskStatus;
+//   progress?: TaskProgress;
+// };
 
 interface IAddOrEditProps {
-  addOrEditTaskFunc: (newTask: NewTask) => void;
-  selectedTask: NewTask;
+  addOrEditTaskFunc: (newTask: Task) => void;
+  selectedTask: Task | undefined;
 }
 
 const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
-  const [newTask, setNewTask] = useState<NewTask>({
+  const [newTask, setNewTask] = useState<Task>({
     title: "",
     priority: "low",
     status: TaskStatus.TODO,
     progress: TaskProgress.TODO,
   });
-
-  // useEffect(() => {
-  //   if (values.currentModal !== "add") {
-  //     setNewTask({
-  //       id: selectedTask.id,
-  //       title: selectedTask.title,
-  //       priority: selectedTask.priority,
-  //       status: selectedTask.status,
-  //       progress: selectedTask.progress,
-  //     });
-  //   }
-  // }, []);
 
   const { values, func } = useAppContext();
 
@@ -54,8 +42,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     func.onClose();
   };
 
-  const handleAddOrEditTask = (e: MouseEventHandler<HTMLButtonElement>) => {
-    // e.preventDefault();
+  const handleAddOrEditTask = () => {
     addOrEditTaskFunc(newTask);
     handleCloseModal();
   };
@@ -71,11 +58,20 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     console.log(newTask);
   };
 
+  useEffect(() => {
+    if (values.currentModal !== "add" && selectedTask) {
+      setNewTask(selectedTask);
+    }
+  }, [selectedTask, values.currentModal]);
   const { title } = newTask;
 
   return (
     <Modal show={values.open} width={values.width} closable={values.closable} onClose={func.onClose}>
-      <FormWrapper>
+      <FormWrapper
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <div className=" flex justify-between">
           <span className=" text-[22px] font-bold text-[#121212] mb-[30px] ">
             {values.currentModal === "add" ? "Add Task" : "Edit Task"}
@@ -102,6 +98,8 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
           </ul>
         </div>
         <div className="flex justify-end mt-[20px]">
+          {/* //TODO why onClick */}
+
           <Button bgColor="black" title="Add" onClick={handleAddOrEditTask}>
             {values.currentModal === "add" ? "Add" : "Edit"}
           </Button>

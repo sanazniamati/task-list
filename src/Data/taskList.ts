@@ -2,8 +2,9 @@
 
 import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
+import { Task } from "@/components/TaskCard/models/task";
 
-export const taskList = [
+export const taskList: Task[] = [
   {
     id: "01",
     title: "Go to gym",
