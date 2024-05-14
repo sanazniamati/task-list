@@ -5,17 +5,16 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import classNames from "classnames";
 
 // components
-import Modal from "../Modal";
-import Input from "../Input";
-import Close from "../Icons/CloseIcon";
+import Modal from "@/components/Modal";
+import Input from "@/components/Input";
+import Close from "@/components/Icons/CloseIcon";
 import { Button } from "../Button";
 
 // styles
 import { FormWrapper } from "./style";
 import { useAppContext } from "@/app/context";
-import { TaskStatus } from "../TaskCard/models/TaskStatus";
-import { TaskProgress } from "../TaskCard/models/TaskProgress";
-import { title } from "process";
+import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
+import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
 
 type NewTask = {
   id?: string;
@@ -30,7 +29,6 @@ interface IAddOrEditProps {
   addEditTask: (newTask: NewTask) => void;
   selectedTask: NewTask;
   newRecordId?: number | undefined;
-  // AddOrEditTask: (tsk: Task) => void;
 }
 
 const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selectedTask }) => {

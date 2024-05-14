@@ -1,15 +1,18 @@
 /** @format */
-
-import React, { FC, useState } from "react";
+// library
+import React, { FC } from "react";
 import Image from "next/image";
-import ProgressBar from "../ProgressBar";
+
+// components
+import ProgressBar from "@/components/ProgressBar";
 // icons
-import DeleteIcon from "../../../../public/assets/icons/delete.svg";
-import EditIcon from "../../../../public/assets/icons/edit.svg";
+import DeleteIcon from "../../../public/assets/icons/delete.svg";
+import EditIcon from "../../../public/assets/icons/edit.svg";
 
 // style
 import { TaskWrapper } from "./style";
-import { Button } from "../Button";
+
+// context
 import { useAppContext } from "@/app/context";
 
 interface TaskProps {
