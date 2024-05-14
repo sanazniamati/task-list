@@ -1,8 +1,7 @@
 /** @format */
 
 // library
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import classNames from "classnames";
+import { ChangeEvent, FC, useState } from "react";
 
 // components
 import Modal from "@/components/Modal";
@@ -25,27 +24,20 @@ type NewTask = {
 };
 
 interface IAddOrEditProps {
-  currentModal: "add" | "edit" | "";
-  addEditTask: (newTask: NewTask) => void;
+  // currentModal: "add" | "edit" | "";
+  addOrEditTaskFunc: (newTask: NewTask) => void;
   selectedTask: NewTask;
   newRecordId?: number | undefined;
 }
 
-const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selectedTask }) => {
+const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
   const [newTask, setNewTask] = useState<NewTask>({
     title: "",
     priority: "low",
     status: TaskStatus.TODO,
     progress: TaskProgress.TODO,
   });
-  // const [showModal, setShowModal] = useState<boolean>(open);
-  // useEffect(() => {
-  //   setShowModal(open);
-  // }, [open]);
 
-  // if (!showModal) {
-  //   return <></>;
-  // }
   const { values, func } = useAppContext();
 
   const handleCloseModal = () => {
@@ -53,7 +45,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selecte
   };
 
   const handleAddOrEditTask = () => {
-    addEditTask(newTask);
+    addOrEditTaskFunc(newTask);
     console.log("add task or edit task");
     handleCloseModal();
   };
@@ -66,7 +58,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selecte
       //   title: value,
       //   id: currentModal === "add" ? Date.now().toString() : selectedTask.id,
       // })
-      { ...newTask, title: value, id: currentModal === "add" ? Date.now().toString() : selectedTask.id }
+      { ...newTask, title: value, id: values.currentModal === "add" ? Date.now().toString() : selectedTask.id }
     );
     console.log(newTask);
   };
@@ -78,7 +70,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selecte
       <FormWrapper>
         <div className=" flex justify-between">
           <span className=" text-[22px] font-bold text-[#121212] mb-[30px] ">
-            {currentModal === "add" ? "Add Task" : "Edit Task"}
+            {values.currentModal === "add" ? "Add Task" : "Edit Task"}
           </span>
           <button onClick={handleCloseModal} className="cursor-pointer select-none">
             <Close />
@@ -97,7 +89,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ currentModal, addEditTask, selecte
         </div>
         <div className="flex justify-end mt-[20px]">
           <Button bgColor="black" title="Add" onClick={handleAddOrEditTask}>
-            {currentModal === "add" ? "Add" : "Edit"}
+            {values.currentModal === "add" ? "Add" : "Edit"}
           </Button>
         </div>
       </FormWrapper>

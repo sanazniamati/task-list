@@ -2,17 +2,21 @@
 "use client";
 import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 
+type CurrentModalType = {
+  currentModal: "add" | "edit" | "";
+};
+
 interface ContextProps {
   values: {
     open: boolean;
-    // currentModal: string;
+    currentModal: CurrentModalType;
     width: number;
     closable: boolean;
   };
   dispatch: {
     setOpenModal: Dispatch<SetStateAction<boolean>>;
     // TODO:what is type setStateAction ?
-    // setCurrentModal:Dispatch<SetStateAction<string>>
+    setCurrentModal: Dispatch<SetStateAction<CurrentModalType>>;
   };
   func: {
     onClose: () => void;
@@ -28,7 +32,7 @@ const AppContext = createContext({
   },
   dispatch: {
     setOpenModal: (isOpen: boolean) => {},
-    setCurrentModal: (current: string) => {},
+    setCurrentModal: (current: CurrentModalType) => {},
   },
   func: {
     onClose: () => {},
@@ -37,7 +41,9 @@ const AppContext = createContext({
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [currentModal, setCurrentModal] = useState<"add" | "edit" | "">("");
+  const [currentModal, setCurrentModal] = useState<CurrentModalType>({
+    currentModal: "",
+  });
 
   const closeFunc = () => {
     setOpenModal(false);
@@ -46,13 +52,13 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const contextValues: ContextProps = {
     values: {
       open: openModal,
-      // currentModal:currentModal,
+      currentModal: currentModal,
       closable: true,
       width: 30,
     },
     dispatch: {
       setOpenModal,
-      // setCurrentModal,
+      setCurrentModal,
     },
     func: {
       onClose: closeFunc,

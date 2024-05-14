@@ -18,21 +18,20 @@ import { useAppContext } from "../context";
 import { Task } from "../components/TaskCard/models/task";
 
 export default function Home() {
+  // TODO:why type taslList not asynable to Task[]
   const [tasks, setTasks] = useState<Task[]>(taskList);
-  const [currentModal, setCurrentModal] = useState<"add" | "edit" | "">("");
-  // const lastId = tasks[tasks.length - 1].id;
   const [selectedTask, setSelectedTask] = useState<any | {}>({});
+  // const lastId = tasks[tasks.length - 1].id;
 
-  const { dispatch } = useAppContext();
+  const { values, dispatch } = useAppContext();
 
   const handleAddButton = () => {
     dispatch.setOpenModal(true);
-    setCurrentModal("add");
-    console.log("currentModal :" + currentModal);
+    dispatch.setCurrentModal("add");
   };
 
-  const addOrEditTask = (newTask: Task) => {
-    if (currentModal === "add") {
+  const addOrEditTaskFunc = (newTask: Task) => {
+    if (values.currentModal === "add") {
       setTasks([newTask, ...tasks]);
       console.log("add btn clieked" + newTask);
     } else {
@@ -57,12 +56,12 @@ export default function Home() {
 
         <div className="task-container">
           {tasks.map((task) => (
-            <TaskCard key={task.id} {...task} setCurrentModal={setCurrentModal} />
+            <TaskCard key={task.id} {...task} />
           ))}
         </div>
       </div>
 
-      <AddOrEditTask currentModal={currentModal} addOrEditTask={addOrEditTask} selectedTask={selectedTask} />
+      <AddOrEditTask addOrEditTaskFunc={addOrEditTaskFunc} selectedTask={selectedTask} />
     </Container>
   );
 }

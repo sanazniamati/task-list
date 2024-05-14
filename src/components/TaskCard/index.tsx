@@ -21,15 +21,15 @@ interface TaskProps {
   priority: string;
   status: string;
   progress: number;
-  setCurrentModal: any;
+  // setCurrentModal: any;
 }
 
-const TaskCard: FC<TaskProps> = ({ title, priority, status, progress, setCurrentModal }) => {
+const TaskCard: FC<TaskProps> = ({ title, priority, status, progress }) => {
   const { dispatch } = useAppContext();
 
   const handleEditBtn = () => {
     dispatch.setOpenModal(true);
-    setCurrentModal("edit");
+    dispatch.setCurrentModal("edit");
   };
 
   return (
