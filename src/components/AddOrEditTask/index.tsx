@@ -14,27 +14,17 @@ import { FormWrapper } from "./style";
 import { useAppContext } from "@/context";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
 import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
-import { Task } from "../TaskCard/models/task";
-// type NewTask = {
-//   id?: string;
-//   title: string;
-//   priority: "high" | "medium" | "low";
-//   status?: TaskStatus;
-//   progress?: TaskProgress;
-// };
+import { Task, TaskPriority } from "../TaskCard/models/task";
 
 interface IAddOrEditProps {
   addOrEditTaskFunc: (newTask: Task) => void;
   selectedTask: Task | undefined;
 }
 
+const defultValue = { id: "", title: "", priority: TaskPriority.Low, status: TaskStatus.TODO };
+
 const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
-  const [newTask, setNewTask] = useState<Task>({
-    title: "",
-    priority: "low",
-    status: TaskStatus.TODO,
-    progress: TaskProgress.TODO,
-  });
+  const [newTask, setNewTask] = useState<Task>(defultValue);
 
   const { values, func } = useAppContext();
 
@@ -44,6 +34,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
 
   const handleAddOrEditTask = () => {
     addOrEditTaskFunc(newTask);
+    setNewTask(defultValue);
     handleCloseModal();
   };
 
@@ -59,7 +50,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
   };
 
   useEffect(() => {
-    if (values.currentModal !== "add" && selectedTask) {
+    if (values.currentModal == "edit" && selectedTask) {
       setNewTask(selectedTask);
     }
   }, [selectedTask, values.currentModal]);
@@ -98,8 +89,6 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
           </ul>
         </div>
         <div className="flex justify-end mt-[20px]">
-          {/* //TODO why onClick */}
-
           <Button bgColor="black" title="Add" onClick={handleAddOrEditTask}>
             {values.currentModal === "add" ? "Add" : "Edit"}
           </Button>
