@@ -12,9 +12,6 @@ import EditIcon from "../../../public/assets/icons/edit.svg";
 // style
 import { TaskWrapper } from "./style";
 
-// context
-import { useAppContext } from "@/context";
-
 // type
 import { Task } from "../../components/TaskCard/models/task";
 
@@ -22,6 +19,7 @@ interface TaskProps {
   task: Task;
   onEdit: () => void;
   onDelete: () => void;
+  setSelectedTaskId: any;
 }
 
 const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit }) => {
@@ -44,18 +42,8 @@ const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit }) => {
         <ProgressBar strokeWidth={2} sqSize={24} percentage={progress} />
       </div>
       <div className=" flex">
-        <Image
-          src={DeleteIcon}
-          alt=""
-          className="mr-[20px] cursor-pointer"
-          onClick={onDelete}
-        />
-        <Image
-          src={EditIcon}
-          alt=""
-          className=" cursor-pointer"
-          onClick={onEdit}
-        />
+        <Image src={DeleteIcon} alt="" className="mr-[20px] cursor-pointer" onClick={onDelete} />
+        <Image src={EditIcon} alt="" className=" cursor-pointer" onClick={onEdit} />
       </div>
     </TaskWrapper>
   );

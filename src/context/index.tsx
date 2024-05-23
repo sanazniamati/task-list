@@ -9,11 +9,12 @@ interface ContextProps {
     currentModal: CurrentModalType;
     width: number;
     closable: boolean;
+    showDeleteModal: boolean;
   };
   dispatch: {
     setOpenModal: Dispatch<SetStateAction<boolean>>;
-    // TODO:what is type setStateAction ?
     setCurrentModal: Dispatch<SetStateAction<CurrentModalType>>;
+    setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
   };
   func: {
     onClose: () => void;
@@ -26,10 +27,12 @@ const AppContext = createContext({
     currentModal: "",
     width: 30,
     closable: true,
+    showDeleteModal: false,
   },
   dispatch: {
     setOpenModal: (isOpen: boolean) => {},
     setCurrentModal: (current: CurrentModalType) => {},
+    setShowDeleteModal: (isShow: boolean) => {},
   },
   func: {
     onClose: () => {},
@@ -38,12 +41,12 @@ const AppContext = createContext({
 
 export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [currentModal, setCurrentModal] = useState<CurrentModalType>({
-    currentModal: "",
-  });
+  const [currentModal, setCurrentModal] = useState<CurrentModalType>("");
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 
   const closeFunc = () => {
     setOpenModal(false);
+    setShowDeleteModal(false);
   };
 
   const contextValues: ContextProps = {
@@ -52,10 +55,12 @@ export const AppWrapper = ({ children }: { children: React.ReactNode }) => {
       currentModal: currentModal,
       closable: true,
       width: 30,
+      showDeleteModal: showDeleteModal,
     },
     dispatch: {
       setOpenModal,
       setCurrentModal,
+      setShowDeleteModal,
     },
     func: {
       onClose: closeFunc,

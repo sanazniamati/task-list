@@ -54,6 +54,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
       setNewTask(selectedTask);
     }
   }, [selectedTask, values.currentModal]);
+
   const { title } = newTask;
 
   return (
