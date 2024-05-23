@@ -14,7 +14,8 @@ import { FormWrapper } from "./style";
 import { useAppContext } from "@/context";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
 import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
-import { Task, TaskPriority } from "../TaskCard/models/task";
+import { Task, TaskPriority, TaskPriorityType } from "../TaskCard/models/task";
+import classNames from "classnames";
 
 interface IAddOrEditProps {
   addOrEditTaskFunc: (newTask: Task) => void;
@@ -55,6 +56,10 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     }
   }, [selectedTask, values.currentModal]);
 
+  const selectPriority = (priority: TaskPriorityType) => {
+    setNewTask((prevTasks) => ({ ...prevTasks, priority: priority }));
+  };
+
   const { title } = newTask;
 
   return (
@@ -83,7 +88,11 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
           <span>Priority</span>
           <ul className="priority-buttons">
             {["high", "medium", "low"].map((priority) => (
-              <li key={priority} className={` ${priority}-selected ${priority}`}>
+              <li
+                key={priority}
+                className={classNames(priority === newTask.priority && `${priority}-selected`, priority)}
+                onClick={() => selectPriority(priority)}
+              >
                 {priority}
               </li>
             ))}

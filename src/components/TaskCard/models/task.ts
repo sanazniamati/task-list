@@ -9,11 +9,12 @@ export enum TaskPriority {
   Low = "low",
 }
 
+export type TaskPriorityType = "high" | "medium" | "low";
+
 export interface Task {
-  // TODO
   id: string;
   title: string;
   priority: "high" | "medium" | "low";
-  status?: TaskStatus;
-  progress?: TaskProgress;
+  status: TaskStatus;
+  progress: TaskProgress;
 }

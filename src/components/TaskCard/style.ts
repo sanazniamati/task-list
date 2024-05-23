@@ -60,6 +60,7 @@ export const TaskWrapper = styled.div`
   }
 
   .status {
+    cursor: pointer;
     background: rgba(125, 133, 146, 0.14);
     border-radius: 8px;
     padding: 7px 14px;
@@ -68,6 +69,5 @@ export const TaskWrapper = styled.div`
     font-size: 12px;
     outline: none;
     border: none;
-    cursor: pointer;
   }
 `;

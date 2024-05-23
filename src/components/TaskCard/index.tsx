@@ -19,10 +19,10 @@ interface TaskProps {
   task: Task;
   onEdit: () => void;
   onDelete: () => void;
-  setSelectedTaskId: any;
+  handleUpdateTaskStatus: () => void;
 }
 
-const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit }) => {
+const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit, handleUpdateTaskStatus }) => {
   const { title, priority, status, progress } = task;
 
   return (
@@ -36,7 +36,9 @@ const TaskCard: FC<TaskProps> = ({ task, onDelete, onEdit }) => {
         <span className={`${priority}-priority priority`}>{priority}</span>
       </div>
       <div className="task-status-wrapper">
-        <button className="status">{status}</button>
+        <button className="status" onClick={handleUpdateTaskStatus}>
+          {status}
+        </button>
       </div>
       <div className="progress">
         <ProgressBar strokeWidth={2} sqSize={24} percentage={progress} />

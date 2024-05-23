@@ -14,11 +14,45 @@ import { taskList } from "../../Data/taskList";
 import { useAppContext } from "../../context";
 import { Task } from "../TaskCard/models/task";
 import DeleteTask from "../DeleteTask";
+import { TaskStatus } from "../TaskCard/models/TaskStatus";
+import { TaskProgress } from "../TaskCard/models/TaskProgress";
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>(taskList);
   const [selectedTask, setSelectedTask] = useState<Task>();
   const [selectedTaskId, setSelectedTaskId] = useState<string>("");
+
+  const handleUpdateTaskStatus = (id: string) => {
+    const updateStatus = tasks.map((task) => {
+      if (task.id === id) {
+        switch (task.status) {
+          case TaskStatus.TODO:
+            return {
+              ...task,
+              status: TaskStatus.IN_PROGRESS,
+              progress: TaskProgress.IN_PROGRESS,
+            };
+          case TaskStatus.IN_PROGRESS:
+            return {
+              ...task,
+              status: TaskStatus.DONE,
+              progress: TaskProgress.DONE,
+            };
+          case TaskStatus.DONE:
+            return {
+              ...task,
+              status: TaskStatus.TODO,
+              progress: TaskProgress.TODO,
+            };
+          default:
+            return task;
+        }
+      } else {
+        return task;
+      }
+    });
+    setTasks(updateStatus);
+  };
 
   const { values, dispatch } = useAppContext();
 
@@ -30,7 +64,6 @@ export default function TaskList() {
   const addOrEditTaskFunc = (newTask: Task) => {
     if (values.currentModal === "add") {
       setTasks([newTask, ...tasks]);
-      
     } else {
       const editedTasks = tasks.map((task) => (selectedTask && task.id === selectedTask.id ? newTask : task));
       setTasks(editedTasks);
@@ -52,9 +85,9 @@ export default function TaskList() {
 
   // delete task
   const handleDeleteTask = (id: string) => {
-    const deleteTask = tasks.filter((item) => item.id !== id);  
+    const deleteTask = tasks.filter((item) => item.id !== id);
     setTasks(deleteTask);
-    
+  };
 
   return (
     <>
@@ -71,7 +104,7 @@ export default function TaskList() {
             <TaskCard
               key={task.id}
               task={task}
-              setSelectedTaskId={setSelectedTaskId}
+              handleUpdateTaskStatus={() => handleUpdateTaskStatus(task.id)}
               onEdit={() => handleEditBtn(task)}
               onDelete={() => handleDeleteButton(task.id)}
             />
