@@ -21,8 +21,10 @@
     "postcss": "8.4.38",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.51.5",
     "styled-components": "^6.1.8",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.5"
+    "typescript": "5.4.5",
+    "zod": "^3.23.8"
   }
 }

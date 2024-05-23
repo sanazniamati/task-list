@@ -1,7 +1,7 @@
 /** @format */
 
 // library
-import { ChangeEvent, FC, MouseEventHandler, useEffect, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 
 // components
 import Modal from "@/components/Modal";
@@ -13,16 +13,22 @@ import { Button } from "../Button";
 import { FormWrapper } from "./style";
 import { useAppContext } from "@/context";
 import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
-import { TaskProgress } from "@/components/TaskCard/models/TaskProgress";
 import { Task, TaskPriority, TaskPriorityType } from "../TaskCard/models/task";
 import classNames from "classnames";
+import { TaskProgress } from "../TaskCard/models/TaskProgress";
 
 interface IAddOrEditProps {
   addOrEditTaskFunc: (newTask: Task) => void;
   selectedTask: Task | undefined;
 }
 
-const defultValue = { id: "", title: "", priority: TaskPriority.Low, status: TaskStatus.TODO };
+const defultValue = {
+  id: "",
+  title: "",
+  priority: TaskPriority.Low,
+  status: TaskStatus.TODO,
+  progress: TaskProgress.TODO,
+};
 
 const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
   const [newTask, setNewTask] = useState<Task>(defultValue);
