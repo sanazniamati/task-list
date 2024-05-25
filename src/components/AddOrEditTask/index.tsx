@@ -22,6 +22,10 @@ interface IAddOrEditProps {
   selectedTask: Task | undefined;
 }
 
+interface IErrors {
+  [errorTitle: string]: string;
+}
+
 const defultValue = {
   id: "",
   title: "",
@@ -32,17 +36,29 @@ const defultValue = {
 
 const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
   const [newTask, setNewTask] = useState<Task>(defultValue);
+  const [errors, setErrors] = useState<IErrors>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    validateForm();
+  }, [newTask.title]);
+
+  // Validate form
+  const validateForm = () => {
+    let errors: IErrors = {};
+
+    if (!newTask.title) {
+      errors.name = "task's min length is 3 charecters";
+    }
+
+    setErrors(errors);
+    setIsFormValid(Object.keys(errors).length === 0);
+  };
 
   const { values, func } = useAppContext();
 
   const handleCloseModal = () => {
     func.onClose();
-  };
-
-  const handleAddOrEditTask = () => {
-    addOrEditTaskFunc(newTask);
-    setNewTask(defultValue);
-    handleCloseModal();
   };
 
   const handleInputOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +84,17 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
 
   const { title } = newTask;
 
+  const handleAddOrEditTask = () => {
+    if (isFormValid) {
+      addOrEditTaskFunc(newTask);
+      setNewTask(defultValue);
+      handleCloseModal();
+    } else {
+      console.log("Form has errors. Please correct them.");
+      return;
+    }
+  };
+
   return (
     <Modal show={values.open} width={values.width} closable={values.closable} onClose={func.onClose}>
       <FormWrapper
@@ -90,6 +117,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
           name="title"
           value={title}
         />
+        {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
         <div className="modal-priority">
           <span>Priority</span>
           <ul className="priority-buttons">

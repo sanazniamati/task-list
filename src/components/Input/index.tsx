@@ -1,8 +1,10 @@
 /** @format */
 
 import { FC } from "react";
-import { useForm } from "react-hook-form";
 import { InputWrapper } from "./style";
+
+// valdation
+import { useController } from "react-hook-form";
 
 interface InputProps {
   label: string;
@@ -12,13 +14,11 @@ interface InputProps {
   value: string;
 }
 const Input: FC<InputProps> = ({ label, placeholder, onChange, name, value }) => {
-  const form = useForm();
-  const { register } = form;
-  // const { name, ref, onBlur } = register;
   return (
     <InputWrapper>
       <div className="input">
         <label htmlFor="">{label}</label>
+
         <input type="text" placeholder={placeholder} onChange={onChange} name={name} value={value} />
       </div>
     </InputWrapper>
