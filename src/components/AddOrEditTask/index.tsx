@@ -124,6 +124,7 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
             {["high", "medium", "low"].map((priority) => (
               <li
                 key={priority}
+                // className={`${priority === newTask.priority && }`,priority}
                 className={classNames(priority === newTask.priority && `${priority}-selected`, priority)}
                 onClick={() => selectPriority(priority)}
               >

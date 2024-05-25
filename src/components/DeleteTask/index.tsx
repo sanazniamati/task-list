@@ -21,6 +21,7 @@ function DeleteTask({ handleDeleteTask, selectedTaskId }: DeleteTaskPrpos) {
     dispatch.setShowDeleteModal(false);
     func.onClose();
   };
+
   return (
     <Modal show={values.showDeleteModal} width={values.width} closable={values.closable} onClose={func.onClose}>
       <p className=" text-[20px] font-bold text-center">Are you sure you want to delete this task?</p>

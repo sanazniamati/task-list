@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { GlobalStyle } from "./global.style";
 import { Theme } from "./styles/theme";
 import { AppWrapper } from "../context";
+import { Suspense } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,9 +19,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <Theme>
         <GlobalStyle />
+        {/* <Suspense fallback={<div>loading</div>}> */}
         <body className={inter.className}>
           <AppWrapper>{children}</AppWrapper>
         </body>
+        {/* </Suspense> */}
       </Theme>
     </html>
   );
