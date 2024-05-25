@@ -16,7 +16,7 @@ import { TaskStatus } from "@/components/TaskCard/models/TaskStatus";
 import { Task, TaskPriority, TaskPriorityType } from "../TaskCard/models/task";
 import classNames from "classnames";
 import { TaskProgress } from "../TaskCard/models/TaskProgress";
-
+import { Controller, useForm } from "react-hook-form";
 interface IAddOrEditProps {
   addOrEditTaskFunc: (newTask: Task) => void;
   selectedTask: Task | undefined;
@@ -34,13 +34,16 @@ const defultValue = {
   progress: TaskProgress.TODO,
 };
 
-const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask }) => {
+const AddOrEditTask: FC<IAddOrEditProps> = ({
+  addOrEditTaskFunc,
+  selectedTask,
+}) => {
   const [newTask, setNewTask] = useState<Task>(defultValue);
   const [errors, setErrors] = useState<IErrors>({});
   const [isFormValid, setIsFormValid] = useState(false);
-
   useEffect(() => {
     validateForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newTask.title]);
 
   // Validate form
@@ -66,7 +69,10 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     setNewTask({
       ...newTask,
       title: value,
-      id: values.currentModal === "add" ? Date.now().toString() : selectedTask.id,
+      id:
+        values.currentModal === "add"
+          ? Date.now().toString()
+          : selectedTask!.id,
     });
 
     console.log(newTask);
@@ -83,6 +89,13 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
   };
 
   const { title } = newTask;
+  const {
+    register,
+    formState: { errors: formError },
+    handleSubmit,
+    watch,
+    control,
+  } = useForm();
 
   const handleAddOrEditTask = () => {
     if (isFormValid) {
@@ -95,45 +108,80 @@ const AddOrEditTask: FC<IAddOrEditProps> = ({ addOrEditTaskFunc, selectedTask })
     }
   };
 
+  const onSubmit = (value: any) => {
+    console.log(value, "Submit");
+    alert(JSON.stringify(value));
+  };
+  console.log(formError.title);
   return (
-    <Modal show={values.open} width={values.width} closable={values.closable} onClose={func.onClose}>
-      <FormWrapper
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+    <Modal
+      show={values.open}
+      width={values.width}
+      closable={values.closable}
+      onClose={func.onClose}
+    >
+      <FormWrapper onSubmit={handleSubmit(onSubmit)}>
         <div className=" flex justify-between">
           <span className=" text-[22px] font-bold text-[#121212] mb-[30px] ">
             {values.currentModal === "add" ? "Add Task" : "Edit Task"}
           </span>
-          <button onClick={handleCloseModal} className="cursor-pointer select-none">
+          <button
+            onClick={handleCloseModal}
+            className="cursor-pointer select-none"
+          >
             <Close />
           </button>
         </div>
-        <Input
-          label="Task"
-          placeholder="Type your task here..."
-          onChange={handleInputOnChange}
+        <Controller
           name="title"
-          value={title}
+          control={control}
+          rules={{ required: true, max: 10, min: 3 }}
+          render={({ field }) => {
+            return (
+              <Input
+                {...field}
+                label="Task"
+                placeholder="Type your task here..."
+                // onChange={handleInputOnChange}
+                // name="title"
+                //value={title}
+              />
+            );
+          }}
         />
-        {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+
+        {/* <input {...register("title")} /> */}
+
+        {/* {errors.name && <p style={{ color: "red" }}>{errors.name}</p>} */}
+        {formError.title && (
+          <p style={{ color: "red" }}>{formError.title.message?.toString()}</p>
+        )}
         <div className="modal-priority">
           <span>Priority</span>
           <ul className="priority-buttons">
-            {["high", "medium", "low"].map((priority) => (
-              <li
-                key={priority}
-                className={classNames(priority === newTask.priority && `${priority}-selected`, priority)}
-                onClick={() => selectPriority(priority)}
-              >
-                {priority}
-              </li>
-            ))}
+            {(["high", "medium", "low"] as TaskPriorityType[]).map(
+              (priority) => (
+                <li
+                  key={priority}
+                  className={classNames(
+                    priority === newTask.priority && `${priority}-selected`,
+                    priority
+                  )}
+                  onClick={() => selectPriority(priority)}
+                >
+                  {priority}
+                </li>
+              )
+            )}
           </ul>
         </div>
         <div className="flex justify-end mt-[20px]">
-          <Button bgColor="black" title="Add" onClick={handleAddOrEditTask}>
+          <Button
+            bgColor="black"
+            title="Add"
+            onClick={handleAddOrEditTask}
+            type="submit"
+          >
             {values.currentModal === "add" ? "Add" : "Edit"}
           </Button>
         </div>

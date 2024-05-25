@@ -1,25 +1,22 @@
 /** @format */
 
-import { FC } from "react";
+import { FC, InputHTMLAttributes } from "react";
 import { InputWrapper } from "./style";
 
 // valdation
 import { useController } from "react-hook-form";
 
-interface InputProps {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  placeholder: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  name: string;
-  value: string;
 }
-const Input: FC<InputProps> = ({ label, placeholder, onChange, name, value }) => {
+const Input: FC<InputProps> = (props) => {
+  const { label } = props;
   return (
     <InputWrapper>
       <div className="input">
         <label htmlFor="">{label}</label>
 
-        <input type="text" placeholder={placeholder} onChange={onChange} name={name} value={value} />
+        <input {...props} type="text" />
       </div>
     </InputWrapper>
   );
