@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 // library
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // components
 import TaskCard from "../TaskCard";
@@ -16,9 +16,23 @@ import { Task } from "../TaskCard/models/task";
 import DeleteTask from "../DeleteTask";
 import { TaskStatus } from "../TaskCard/models/TaskStatus";
 import { TaskProgress } from "../TaskCard/models/TaskProgress";
+import { title } from "process";
 
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>(taskList);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    // get the todos from localstorage
+    const savedTasks = localStorage.getItem("tasks");
+
+    // if there are todos stored
+    if (savedTasks) {
+      // return the parsed JSON object back to a javascript object
+      return JSON.parse(savedTasks);
+      // otherwise
+    } else {
+      // return an empty array
+      return [];
+    }
+  });
   const [selectedTask, setSelectedTask] = useState<Task>();
   const [selectedTaskId, setSelectedTaskId] = useState<string>("");
 
@@ -63,6 +77,10 @@ export default function TaskList() {
 
   const addOrEditTaskFunc = (newTask: Task) => {
     if (values.currentModal === "add") {
+      if (newTask.title !== "") {
+        id: tasks.length + 1;
+        title: newTask.title.trim();
+      }
       setTasks([newTask, ...tasks]);
     } else {
       const editedTasks = tasks.map((task) => (selectedTask && task.id === selectedTask.id ? newTask : task));
@@ -88,6 +106,16 @@ export default function TaskList() {
     const deleteTask = tasks.filter((item) => item.id !== id);
     setTasks(deleteTask);
   };
+
+  // useEffect to run once the component mounts
+  useEffect(() => {
+    // localstorage only support storing strings as keys and values
+    // - therefore we cannot store arrays and objects without converting the object
+    // into a string first. JSON.stringify will convert the object into a JSON string
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    // add the todos as a dependancy because we want to update
+    // localstorage anytime the todos state changes
+  }, [tasks]);
 
   return (
     <>
