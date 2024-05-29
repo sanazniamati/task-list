@@ -10,13 +10,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 const Input: FC<InputProps> = (props) => {
-  const { label } = props;
+  const { label, placeholder, onChange, name, value } = props;
   return (
     <InputWrapper>
       <div className="input">
         <label htmlFor="">{label}</label>
 
-        <input {...props} type="text" />
+        <input {...props} onChange={onChange} type="text" />
       </div>
     </InputWrapper>
   );

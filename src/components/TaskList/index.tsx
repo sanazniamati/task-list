@@ -16,25 +16,31 @@ import { Task } from "../TaskCard/models/task";
 import DeleteTask from "../DeleteTask";
 import { TaskStatus } from "../TaskCard/models/TaskStatus";
 import { TaskProgress } from "../TaskCard/models/TaskProgress";
-import { title } from "process";
+import { GetServerSideProps } from "next";
 
+const getAllTasks = () => {
+  // if (typeof localStorage !== "undefined") {
+  const savedTasks = localStorage.getItem("keys");
+  try {
+    return savedTasks ? JSON.parse(savedTasks) : [];
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    return [];
+  }
+  // } else {
+  //   console.log("localStorage is not available");
+  //   return [];
+  // }
+};
 export default function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    // get the todos from localstorage
-    const savedTasks = localStorage.getItem("tasks");
+  const [tasks, setTasks] = useState<Task[] | undefined>(() => getAllTasks());
 
-    // if there are todos stored
-    if (savedTasks) {
-      // return the parsed JSON object back to a javascript object
-      return JSON.parse(savedTasks);
-      // otherwise
-    } else {
-      // return an empty array
-      return [];
-    }
-  });
   const [selectedTask, setSelectedTask] = useState<Task>();
   const [selectedTaskId, setSelectedTaskId] = useState<string>("");
+
+  useEffect(() => {
+    getAllTasks();
+  }, []);
 
   const handleUpdateTaskStatus = (id: string) => {
     const updateStatus = tasks.map((task) => {
@@ -77,15 +83,13 @@ export default function TaskList() {
 
   const addOrEditTaskFunc = (newTask: Task) => {
     if (values.currentModal === "add") {
-      if (newTask.title !== "") {
-        id: tasks.length + 1;
-        title: newTask.title.trim();
-      }
-      setTasks([newTask, ...tasks]);
+      setTasks([newTask, ...(tasks ?? [])]);
     } else {
-      const editedTasks = tasks.map((task) => (selectedTask && task.id === selectedTask.id ? newTask : task));
+      const editedTasks = tasks!.map((task) => (selectedTask && task.id === selectedTask.id ? newTask : task));
       setTasks(editedTasks);
     }
+    // Save the updated tasks array to localStorage
+    // localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
   const handleEditBtn = (task: Task) => {
@@ -95,7 +99,7 @@ export default function TaskList() {
   };
 
   // open DeleteModal
-  const handleDeleteButton = (id: string) => {
+  const handleDeleteBtn = (id: string) => {
     dispatch.setShowDeleteModal(true);
     setSelectedTaskId(id);
     handleDeleteTask(selectedTaskId);
@@ -109,10 +113,12 @@ export default function TaskList() {
 
   // useEffect to run once the component mounts
   useEffect(() => {
-    // localstorage only support storing strings as keys and values
-    // - therefore we cannot store arrays and objects without converting the object
-    // into a string first. JSON.stringify will convert the object into a JSON string
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    if (typeof window !== "undefined") {
+      // localstorage only support storing strings as keys and values
+      // - therefore we cannot store arrays and objects without converting the object
+      // into a string first. JSON.stringify will convert the object into a JSON string
+      localStorage.setItem("keys", JSON.stringify(tasks));
+    }
     // add the todos as a dependancy because we want to update
     // localstorage anytime the todos state changes
   }, [tasks]);
@@ -128,13 +134,13 @@ export default function TaskList() {
         </div>
 
         <div className="task-container">
-          {tasks.map((task) => (
+          {tasks?.map((task) => (
             <TaskCard
               key={task.id}
               task={task}
               handleUpdateTaskStatus={() => handleUpdateTaskStatus(task.id)}
               onEdit={() => handleEditBtn(task)}
-              onDelete={() => handleDeleteButton(task.id)}
+              onDelete={() => handleDeleteBtn(task.id)}
             />
           ))}
         </div>
@@ -146,3 +152,10 @@ export default function TaskList() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const initialTasks = await getAllTasks();
+  return {
+    props: { initialTasks },
+  };
+};
