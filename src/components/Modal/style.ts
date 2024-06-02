@@ -33,10 +33,34 @@ export const ModalWrapper = styled.div<{ $width: number | undefined }>`
     transform: translateX(-50%) translateY(-50%);
     z-index: 100;
 
-    @media (max-width: 600px) {
+    /* @media (max-width: 600px) {
+      background-color: lightblue;
       width: 90%;
-
       padding: 30px 30px;
+    }
+
+    @media (max-width: 600px) {
+      background-color: lightblue;
+      width: 90%;
+      padding: 30px 30px;
+    } */
+    @media screen and (max-width: 1200px) {
+      background-color: lightpink;
+      width: 40%;
+      padding: 30px 30px;
+    }
+    @media screen and (max-width: 800px) {
+      background-color: lightgreen;
+      width: 60%;
+      padding: 30px 30px;
+    }
+    @media screen and (max-width: 600px) {
+      background-color: lightgray;
+      width: 70%;
+      padding: 30px 30px;
+    }
+    @media screen and (max-width: 450px) {
+      background-color: lightblue;
     }
   }
 `;
